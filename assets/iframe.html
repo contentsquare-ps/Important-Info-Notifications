@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!--   See Using Zendesk Garden:
+    https://developer.zendesk.com/apps/docs/developer-guide/setup#using-zendesk-garden
+    https://garden.zendesk.com/css-components/bedrock/
+    https://garden.zendesk.com/css-components/utilities/typography/
+   -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/combine/npm/@zendeskgarden/css-bedrock@7.0.21,npm/@zendeskgarden/css-utilities@4.3.0">
+</head>
+<body>
+  <p>This app triggers pop up notifications for customers with important info</p>
+  <script src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
+  <script>
+    // Initialise Apps framework client. See also:
+    // https://developer.zendesk.com/apps/docs/developer-guide/getting_started
+    var client = ZAFClient.init();
+    client.invoke('resize', { width: '100%', height: '50px' });
+    client.get('ticket').then( function(data) {
+      let importantInfo = data['ticket'].organization.notes;
+      if (!!importantInfo) {
+        client.invoke('instances.create', {
+          location: 'modal',
+          url: 'assets/notes.html?info=' + encodeURIComponent(importantInfo),
+          size: { // optional
+            width: '450px',
+            height: '300px'
+          }
+        }).then(function(modalContext) {
+          // The modal is on screen now
+          var modalClient = client.instance(modalContext['instances.create'][0].instanceGuid);
+          modalClient.on('modal.close', function() {
+          // The modal has been closed
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

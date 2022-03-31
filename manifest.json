@@ -1,0 +1,20 @@
+{
+  "name": "Important Info Notifications",
+  "author": {
+    "name": "Steven Rayl",
+    "email": "steven.rayl@contentsquare.com",
+    "url": ""
+  },
+  "defaultLocale": "en",
+  "private": true,
+  "location": {
+    "support": {
+      "ticket_sidebar": {
+        "url": "assets/iframe.html",
+        "flexible": true
+      }
+    }
+  },
+  "version": "1.1",
+  "frameworkVersion": "2.0"
+}
